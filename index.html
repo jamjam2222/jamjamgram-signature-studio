@@ -1,0 +1,311 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0c0e15"><title>jamjamgram | SIGNATURE STUDIO</title><style>
+:root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif}*{box-sizing:border-box}body{margin:0;background:#090b10;color:#f2f4fa}main{max-width:800px;margin:auto;padding:24px 16px 80px}header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:22px}h1{font-family:Georgia,serif;font-weight:400;letter-spacing:.17em;font-size:clamp(24px,6vw,37px);margin:0}small,.sub{font-size:10px;letter-spacing:.22em;color:#9ba5b8}h2{font-size:12px;letter-spacing:.22em;font-weight:600;color:#aeb9cd;margin:24px 0 12px}.stage{background:#11151e;border:1px solid #2b3240;border-radius:17px;min-height:250px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;touch-action:none}.stage canvas{display:block;width:100%;height:auto;touch-action:none}.stage canvas[hidden],.stage .empty[hidden]{display:none!important}.empty{padding:75px 20px;text-align:center;color:#aeb9ca;line-height:1.8;font-size:13px}.empty strong{display:block;font-size:17px;color:#fff;margin-bottom:8px}.button,button,.filebutton{border:1px solid #3b465a;border-radius:11px;background:#202633;color:white;padding:12px 14px;font-size:13px;cursor:pointer}.button.primary,.filebutton.primary{background:#eaf2ff;color:#101726;border-color:#eaf2ff;font-weight:700}button:disabled{opacity:.4}.toolbar{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap}.toolbar>*{flex:1;text-align:center}.filebutton input{display:none}.segment{display:grid;grid-template-columns:1fr 1fr;gap:8px}.segment button.active,.swatch.active{border-color:#f1f6ff;background:#2b3c57;box-shadow:inset 0 0 0 1px #c5e0ff}.swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:9px}.swatch{padding:9px 2px 7px;min-height:60px;background:#171d29}.dot{display:block;width:21px;height:21px;margin:0 auto 7px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c)}.swatch span:last-child{font-size:9px;color:#c6cbd5}.range{display:flex;align-items:center;gap:15px}.range input{flex:1;accent-color:#b8d9ff}.range output{font-size:13px;color:#cbd9ed;min-width:42px;text-align:right}.hint{color:#8694aa;font-size:11px;line-height:1.7}.notice{font-size:12px;color:#f1d6a3;margin-top:12px;min-height:18px}.qc{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}.qc button{flex:1}.qc button.active{border-color:#a7d5ff;background:#2b3c57}.metadata{font-size:11px;color:#aeb9cd;line-height:1.7;overflow-wrap:anywhere;margin-top:9px}.footer{border-top:1px solid #242d3c;margin-top:30px;padding-top:18px;color:#77849a;font-size:11px;line-height:1.7}@media(min-width:600px){.swatches{grid-template-columns:repeat(12,1fr)}}
+ .looks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.looks button{padding:12px 3px;font-size:10px;line-height:1.5}.looks button.active{border-color:#d2eaff;background:#30425c}.creative-looks{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:8px}.looks small{font-size:9px;letter-spacing:0;color:#9baec5}@media(max-width:480px){.looks{grid-template-columns:repeat(3,minmax(0,1fr))}} .masktools{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}.masktools button.active{border-color:#9feaff;background:#264859}.masknote{color:#b6d6e6;font-size:11px;line-height:1.7} </style>
+<style>
+/* v9.5: persistent image preview with independently scrollable editing controls */
+main{max-width:1440px;padding:12px 14px 40px}
+header{margin-bottom:10px}
+.editor-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(350px,.85fr);gap:18px;align-items:start}
+.preview-pane{position:sticky;top:8px;min-width:0;z-index:5;background:#090b10;padding-bottom:8px}
+.preview-topline{display:flex;align-items:center;justify-content:space-between;color:#9ba5b8;font-size:10px;letter-spacing:.2em;padding:3px 2px 8px}
+.preview-topline button{padding:7px 10px;font-size:11px;letter-spacing:0}
+.stage{min-height:180px;max-height:calc(100dvh - 100px)}
+.stage canvas{width:auto;max-width:100%;max-height:calc(100dvh - 110px);object-fit:contain}
+.controls-pane{min-width:0}
+.controls-pane h2{margin-top:18px}
+@media(max-width:800px){
+ main{padding:8px 12px 45px}
+ header{margin-bottom:7px}
+ h1{font-size:23px}
+ .editor-layout{display:block}
+ .preview-pane{top:0;padding:4px 0 8px;border-bottom:1px solid #263244;box-shadow:0 10px 18px #090b10e8}
+ .preview-topline{padding:0 2px 5px}
+ .stage{min-height:110px;max-height:43dvh;border-radius:12px}
+ .stage canvas{max-height:42dvh}
+ .stage .empty{padding:40px 10px}
+ .controls-pane{padding-top:6px}
+ .toolbar{margin-top:5px}
+ .toolbar>*{min-width:calc(50% - 5px)}
+}
+body.preview-fullscreen{overflow:hidden}
+body.preview-fullscreen .preview-pane{position:fixed;inset:0;z-index:9999;background:#090b10;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 8px env(safe-area-inset-bottom)}
+body.preview-fullscreen .preview-topline{padding:10px}
+body.preview-fullscreen .stage{flex:1;max-height:none;min-height:0}
+body.preview-fullscreen .stage canvas{max-height:calc(100dvh - 85px)}
+</style>
+</head><body><main><header><div><h1>jamjamgram</h1><div class="sub">SIGNATURE STUDIO / SMART PHOTO LAB v9.6.1 — SAFARI AI LOADER</div></div><small>07 BRUSH ART</small></header><div class="editor-layout"><section class="preview-pane" aria-label="固定写真プレビュー"><div class="preview-topline"><span>LIVE PREVIEW</span><button type="button" id="previewExpand" aria-label="プレビューを全画面表示">⛶ 拡大</button></div><div class="stage" id="stage"><div class="empty" id="empty"><strong>YOUR PHOTO, YOUR SIGNATURE.</strong>写真を選択して編集を開始<br>写真はこの端末内で処理されます</div><canvas id="canvas" hidden></canvas></div></section><section class="controls-pane" aria-label="編集操作"><div class="toolbar"><label class="filebutton primary">＋ 写真を選ぶ<input type="file" id="file" accept="image/*"></label><button id="reset" disabled>右下に戻す</button><button id="save" disabled>PNG保存 ↓</button><button id="share" disabled>画像を共有・表示</button></div><div id="notice" class="notice" role="status" aria-live="polite"></div><div class="qc"><button id="compare" disabled>長押しで元写真を比較</button><button id="sidecar" disabled>撮影情報メモを保存</button></div><div id="metadata" class="metadata">元画像の情報は写真を選ぶと表示されます。</div><h2>00 / SMART PHOTO DEVELOPMENT — BETA</h2><p class="hint">写真の縮小プレビューから明るさ・色・コントラストを測定し、4つの個性的な調整レシピを自動提案します。機械学習AIではなく、端末内の画像統計による自動解析です。元写真は変更しません。</p><div id="analysis" class="metadata" aria-live="polite">写真を読み込むと自動解析します。</div><div id="looks" class="looks"><button class="active" data-look="original">ORIGINAL<br><small>無加工</small></button><button data-look="natural">01 CLEAN<br><small>透明感</small></button><button data-look="cinema">02 CINEMA<br><small>映画風</small></button><button data-look="night">03 NIGHT<br><small>暗部復元</small></button><button data-look="street">04 NEON<br><small>発光色</small></button></div><div class="range"><span class="hint">効果 0%</span><input type="range" id="lookStrength" min="0" max="100" value="65" step="5"><output id="lookValue">65%</output></div><h2>00B / CREATIVE LOOKS — EXPERIMENTAL</h2><p class="hint">大胆な作品表現を試す専用モード。PORTRAITは肌に近い色を推定して色変化を抑える実験機能です。元写真は変更しません。光のにじみはプレビューとPNG書き出しの両方に適用します。</p><div id="creativeLooks" class="looks creative-looks"><button data-look="cyberpunk">CYBERPUNK<br><small>紫 × 青</small></button><button data-look="portrait">CYBERPUNK PORTRAIT<br><small>肌色を優先保護</small></button><button data-look="noir">NOIR<br><small>高コントラスト白黒</small></button><button data-look="dream">DREAM GLOW<br><small>光のにじみ</small></button></div><div id="portraitControls" hidden><h2>PORTRAIT / PERSON SEGMENTATION — BETA</h2><p class="hint">肌に近い色の領域を推定し、サイバーパンクの色変化を弱めます。AI自動検出を実行すると、人物・肌・髪・衣服の領域推定を優先します。未解析時は従来の肌色推定を使います。</p><div class="ai-seg-panel"><button id="detectPerson" type="button" style="width:100%;background:#203c4d;border-color:#49c2d8">人物をAIで自動検出</button><button id="aiNetworkTest" type="button" style="width:100%;margin-top:8px">AI読み込み診断（写真不要）</button><p id="aiNetworkResult" class="hint" aria-live="polite">診断すると配信元への接続状況を表示します。写真は送信しません。</p><p class="hint" id="segStatus" aria-live="polite">未解析。初回はインターネットから人物領域モデルを読み込みます。写真データは端末内で処理します。</p><div class="masktools"><button type="button" id="segModeSkin" class="active">肌を自然に</button><button type="button" id="segModePerson">人物全体を自然に</button><button type="button" id="segClear">自動検出を解除</button></div><p class="hint">人物の領域を機械学習モデルで推定します。髪・衣服・肌を分けて保護する実験機能です。判定の誤りや境界のにじみは起こり得ます。モデルを読み込めない場合は従来の肌色推定を使えます。</p></div><div class="range"><span class="hint">保護 0%</span><input type="range" id="skinProtect" min="0" max="100" value="90" step="5"><output id="skinProtectValue">90%</output></div><h2>MANUAL PROTECTION / 指で人物を守る</h2><p class="masknote">「保護を塗る」を選び、写真上の顔・肌を指でなぞってください。塗った範囲は肌色判定より優先して自然な色を保ちます。シアン色は保護範囲の確認表示で、保存画像には入りません。</p><div class="masktools"><button id="maskPaint">保護を塗る</button><button id="maskErase">保護を消す</button><button id="maskDone" class="active">編集終了</button></div><div class="range"><span class="hint">ブラシ幅</span><input id="maskSize" type="range" min="2" max="24" value="10" step="1"><output id="maskSizeValue">10%</output></div><div class="masktools"><button id="maskClear">保護を全消去</button><button id="maskVisibility">保護範囲を表示</button><button id="maskAuto">肌色保護 ON</button></div><p class="hint">これは人物認識AIではなく、手動の領域保護です。塗った範囲はプレビューと元解像度PNGの両方に反映されます。</p></div><p class="hint">現像はロゴの下の写真部分だけに適用します。書き出しは従来どおり元画像の縦横ピクセル数で行います。8bit sRGB PNGへの変換のためRAW情報の完全保持はできません。</p><h2>01 / GLOW MODE</h2><div class="segment"><button id="soft" class="active">SOFT GLOW</button><button id="neon">NEON GLOW</button></div><h2>02 / SIGNATURE COLOR</h2><div id="swatches" class="swatches"></div><h2>03 / SIZE <span style="font-size:10px;letter-spacing:0;color:#8795ac">（写真幅に対する比率・最大200%）</span></h2><div class="range"><span class="hint">小</span><input type="range" id="size" min="1" max="200" step="1" value="29"><span class="hint">大</span><output id="sizeValue">29%</output></div><h2>04 / POSITION</h2><p class="hint">写真上のロゴを指でドラッグして移動。100%は写真の横幅と同じ幅、200%はその2倍です。大きくした部分は写真の外にはみ出すため、保存時に切り取られます。</p><div class="footer">BEYOND THE MOMENT — 写真は端末内のブラウザで合成されます。v9では元画像の基本ファイル情報を別ファイル（JSON）に保存できます。JPEG/HEIC/RAWのEXIF・ICC・HDRをPNGへ完全継承する機能ではありません。保存時は元写真のピクセル寸法でPNG合成します（4096px制限なし）。現在のCanvas出力は8bit sRGB PNGであり、RAWの高ビット深度・HDR・EXIF・ICCの完全保持には対応していません。巨大画像はSafariのメモリ制限により保存できない場合があります。動画は未対応です。</div></section></div></main><script>
+(()=>{'use strict';
+const expandBtn=document.getElementById('previewExpand');expandBtn.addEventListener('click',()=>{const expanded=document.body.classList.toggle('preview-fullscreen');expandBtn.textContent=expanded?'✕ 閉じる':'⛶ 拡大';expandBtn.setAttribute('aria-label',expanded?'全画面表示を閉じる':'プレビューを全画面表示')});
+const colors=[['WHITE','#f8f9ff'],['ICE_BLUE','#77baff'],['BLUE','#254aff'],['PURPLE','#bf45fa'],['PINK','#ff389f'],['RED','#fa333a'],['ORANGE','#ff8637'],['YELLOW','#ffc538'],['GREEN','#32e86b'],['WARM_WHITE','#ffdbb2'],['CYAN','#22e2ff'],['RAINBOW','conic-gradient(red,orange,yellow,lime,cyan,blue,violet,red)']];
+const $=id=>document.getElementById(id),canvas=$('canvas'),ctx=canvas.getContext('2d',{alpha:false}),sw=$('swatches'),notice=$('notice');
+let look='original',lookStrength=.65,skinProtect=.90;let maskMode='done',maskShow=false,maskSize=.10,maskAuto=true,maskStrokes=[],maskCache=null,maskCacheW=0,maskCacheH=0,maskDrawing=false;let segmentMask=null,segmentW=0,segmentH=0,segmentMode="skin",segmentBusy=false,segmenter=null,segmentRequest=0;let metrics=null,recipes=null;let sourceFile=null,compareOriginal=false;let mode='SOFT',selected=0,photo=null,logo=null,x=.975,y=.965,scale=.29,drag=false,pointer=null,frame=0,originalW=0,originalH=0;
+const cache=new Map(),inflight=new Map();function message(s){notice.textContent=s}function name(i=selected,m=mode){return String(i+1).padStart(2,'0')+'_'+colors[i][0]+'_'+m+'.png'}
+function loadImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(new Error('画像を読み込めませんでした'));img.src=src})}
+function getLogo(key){if(cache.has(key))return Promise.resolve(cache.get(key));if(inflight.has(key))return inflight.get(key);const job=loadImage('assets/'+key).then(img=>{cache.set(key,img);inflight.delete(key);return img},err=>{inflight.delete(key);throw err});inflight.set(key,job);return job}
+function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v))}
+// Analyze a small decoded preview, never the source file. No network calls or ML model.
+function analyzePhoto(img){const c=document.createElement('canvas'),w=160,h=120;c.width=w;c.height=h;const ct=c.getContext('2d',{willReadFrequently:true});ct.drawImage(img,0,0,w,h);const d=ct.getImageData(0,0,w,h).data;let n=0,sum=0,sumSq=0,sat=0,red=0,blue=0,shadows=0,highlights=0;for(let i=0;i<d.length;i+=16){const r=d[i],g=d[i+1],b=d[i+2],l=.2126*r+.7152*g+.0722*b;sum+=l;sumSq+=l*l;sat+=Math.max(r,g,b)-Math.min(r,g,b);red+=r;blue+=b;if(l<65)shadows++;if(l>220)highlights++;n++}const mean=sum/n,contrast=Math.sqrt(Math.max(0,sumSq/n-mean*mean));return {mean,contrast,saturation:sat/n,warmth:(red-blue)/n,shadowFraction:shadows/n,highlightFraction:highlights/n}}
+function buildRecipes(m){const dark=clamp((125-m.mean)/100,0,1),flat=clamp((48-m.contrast)/48,0,1),sat=clamp(m.saturation/90,0,1);return {
+ natural:{exposure:clamp(1.06+dark*.27,.96,1.38),contrast:1.06+flat*.10,saturation:1.04+flat*.09,shadows:9+dark*19,highlights:-10,warmth:clamp(-m.warmth*.12,-8,8),tint:0,fade:0,teal:0,orange:0,neon:0},
+ cinema:{exposure:clamp(.90+dark*.08,.86,1.03),contrast:1.35+flat*.12,saturation:.78+sat*.08,shadows:-13,highlights:-12,warmth:0,tint:0,fade:5,teal:22,orange:20,neon:0},
+ night:{exposure:1.03+dark*.13,contrast:.90,saturation:.91,shadows:34+dark*24,highlights:-26,warmth:0,tint:0,fade:0,teal:0,orange:0,neon:0},
+ street:{exposure:.94,contrast:1.44+flat*.08,saturation:1.24+flat*.14,shadows:-16,highlights:-12,warmth:-5,tint:0,fade:0,teal:7,orange:0,neon:38},
+ cyberpunk:{exposure:.96+dark*.06,contrast:1.36,saturation:1.24,shadows:-13,highlights:-12,warmth:-4,tint:0,fade:0,teal:15,orange:0,neon:30},
+ portrait:{exposure:.99+dark*.05,contrast:1.27,saturation:1.18,shadows:-9,highlights:-11,warmth:-4,tint:0,fade:0,teal:13,orange:0,neon:27},
+ noir:{exposure:1.04+dark*.09,contrast:1.52,saturation:0,shadows:-14,highlights:-16,warmth:0,tint:0,fade:0,teal:0,orange:0,neon:0},
+ dream:{exposure:1.04,contrast:1.05,saturation:1.13,shadows:9,highlights:-12,warmth:3,tint:0,fade:0,teal:0,orange:0,neon:7}
+}}
+// Approximate skin-chroma likelihood in YCbCr. This is NOT face or person detection.
+// Soft thresholds avoid hard color edges; protects original skin chroma more than brightness.
+function smoothstep(a,b,v){const x=clamp((v-a)/(b-a),0,1);return x*x*(3-2*x)}
+function skinLikelihood(r,g,b){
+ const y=.299*r+.587*g+.114*b;
+ const cb=128-.168736*r-.331264*g+.5*b;
+ const cr=128+.5*r-.418688*g-.081312*b;
+ const chroma=smoothstep(72,87,cr)*(1-smoothstep(170,187,cr))*smoothstep(65,83,cb)*(1-smoothstep(124,139,cb));
+ const brightness=smoothstep(28,68,y)*(1-smoothstep(240,255,y));
+ const warmth=smoothstep(-14,6,r-g)*(1-smoothstep(135,175,r-g));
+ return chroma*brightness*warmth;
+}
+// Normalized hand-painted protection mask. Rasterized separately for preview/export.
+function maskPixels(w,h){if(maskCache&&maskCacheW===w&&maskCacheH===h)return maskCache;const mc=document.createElement('canvas');mc.width=w;mc.height=h;const mctx=mc.getContext('2d',{willReadFrequently:true});mctx.lineCap='round';mctx.lineJoin='round';for(const stroke of maskStrokes){const pts=stroke.points;if(!pts.length)continue;mctx.globalCompositeOperation=stroke.erase?'destination-out':'source-over';mctx.strokeStyle='#fff';mctx.fillStyle='#fff';mctx.lineWidth=stroke.size*Math.min(w,h);mctx.beginPath();mctx.arc(pts[0][0]*w,pts[0][1]*h,mctx.lineWidth/2,0,Math.PI*2);mctx.fill();if(pts.length>1){mctx.beginPath();mctx.moveTo(pts[0][0]*w,pts[0][1]*h);for(let i=1;i<pts.length;i++)mctx.lineTo(pts[i][0]*w,pts[i][1]*h);mctx.stroke()}}maskCache=mctx.getImageData(0,0,w,h).data;maskCacheW=w;maskCacheH=h;return maskCache}
+function invalidateMask(){maskCache=null;render()}
+// Piecewise luminance masks preserve more tonal separation than global brightness alone.
+function developPixels(context,w,h){if(look==='original'||lookStrength===0||!recipes)return;const p=recipes[look];if(!p)return;const t=lookStrength,chunk=64;const mask=look==='portrait'&&maskStrokes.length?maskPixels(w,h):null;for(let sy=0;sy<h;sy+=chunk){const sh=Math.min(chunk,h-sy),image=context.getImageData(0,sy,w,sh),d=image.data;for(let i=0;i<d.length;i+=4){const or=d[i],og=d[i+1],ob=d[i+2],lum=.2126*or+.7152*og+.0722*ob;const shadow=Math.pow(1-lum/255,2),highlight=Math.pow(lum/255,2);let r=or*p.exposure,g=og*p.exposure,b=ob*p.exposure;const tonal=(p.shadows*shadow+p.highlights*highlight);r+=tonal;g+=tonal;b+=tonal;const mid=.2126*r+.7152*g+.0722*b;r=mid+(r-mid)*p.saturation;g=mid+(g-mid)*p.saturation;b=mid+(b-mid)*p.saturation;r=(r-127.5)*p.contrast+127.5;g=(g-127.5)*p.contrast+127.5;b=(b-127.5)*p.contrast+127.5;
+// Filmic teal shadows and warm highlights; hue selective neon boost.
+if(p.teal||p.orange){r-=p.teal*shadow*.38;g+=p.teal*shadow*.35;b+=p.teal*shadow*.65;r+=p.orange*highlight*.65;g+=p.orange*highlight*.23;b-=p.orange*highlight*.32}
+if(p.neon){const blueDominance=clamp((ob-Math.max(or,og)*.68)/125,0,1),cyanDominance=clamp((Math.min(og,ob)-or*.75)/135,0,1),mask=Math.max(blueDominance,cyanDominance);g+=p.neon*mask*.55;b+=p.neon*mask*1.05;r-=p.neon*mask*.18}
+if(look==='cyberpunk'||look==='portrait'){
+ const blue=clamp((ob-or*.70)/120,0,1),magenta=clamp((or-og*.72)/120,0,1),light=clamp((lum-30)/190,0,1);
+ r+=24*blue+34*magenta+8*light;g-=13*magenta;b+=22*blue+24*magenta;
+ }
+ if(look==='noir'){
+ const bw=.24*r+.68*g+.08*b;r=bw;g=bw;b=bw;
+ }
+ r+=p.warmth; b-=p.warmth;
+ if(look==='portrait'){
+   const pixelIndex=(sy+Math.floor(i/4/w))*w+(Math.floor(i/4)%w);const painted=mask?mask[pixelIndex*4+3]/255:0;let automatic=maskAuto?skinLikelihood(or,og,ob)*skinProtect:0;
+   if(segmentMask&&segmentW&&segmentH){
+     const px=Math.floor((i/4)%w),py=sy+Math.floor(i/4/w);
+     const mx=Math.min(segmentW-1,Math.floor(px*segmentW/w)),my=Math.min(segmentH-1,Math.floor(py*segmentH/h));
+     const cls=segmentMask[my*segmentW+mx];
+     const strength=cls===2||cls===3?1:(segmentMode==="person"?(cls===1?.88:cls===4?.85:cls===5?.50:0):0);
+     automatic=maskAuto?strength*skinProtect:0;
+   }
+   const protection=Math.max(painted,automatic);
+   // Retain original chroma and most original luminance in skin-like pixels.
+   // This avoids magenta skin without adding artificial skin texture.
+   const targetLum=.2126*r+.7152*g+.0722*b;
+   const originalLum=.2126*or+.7152*og+.0722*ob;
+   const gentleLum=originalLum+(targetLum-originalLum)*.18;
+   const pr=or+(gentleLum-originalLum),pg=og+(gentleLum-originalLum),pb=ob+(gentleLum-originalLum);
+   r=r+(pr-r)*protection;g=g+(pg-g)*protection;b=b+(pb-b)*protection;
+ }
+ if(p.fade){r=r*(1-p.fade/255)+p.fade;g=g*(1-p.fade/255)+p.fade;b=b*(1-p.fade/255)+p.fade}
+d[i]=clamp(or+(r-or)*t,0,255);d[i+1]=clamp(og+(g-og)*t,0,255);d[i+2]=clamp(ob+(b-ob)*t,0,255)}context.putImageData(image,0,sy)}}
+function applyDreamGlow(context,w,h){
+ if(look!=='dream'||lookStrength<=0)return;
+ const bw=Math.max(1,Math.round(w/9)),bh=Math.max(1,Math.round(h/9));
+ const small=document.createElement('canvas');small.width=bw;small.height=bh;
+ const sc=small.getContext('2d',{willReadFrequently:true});sc.drawImage(context.canvas,0,0,bw,bh);
+ const img=sc.getImageData(0,0,bw,bh),d=img.data;
+ for(let i=0;i<d.length;i+=4){const l=.2126*d[i]+.7152*d[i+1]+.0722*d[i+2];const k=clamp((l-115)/115,0,1);d[i]=Math.round(d[i]*k);d[i+1]=Math.round(d[i+1]*k);d[i+2]=Math.round(d[i+2]*k);d[i+3]=255}
+ // Two low-resolution box-blur passes; avoids Canvas filter support differences in Safari.
+ const temp=new Uint8ClampedArray(d.length),radius=3;
+ for(let pass=0;pass<2;pass++){
+  const input=pass===0?d:temp,output=pass===0?temp:d;
+  for(let yy=0;yy<bh;yy++)for(let xx=0;xx<bw;xx++){
+   let r=0,g=0,b=0,n=0;
+   for(let ky=-radius;ky<=radius;ky++)for(let kx=-radius;kx<=radius;kx++){
+    const sx=xx+kx,sy=yy+ky;if(sx<0||sy<0||sx>=bw||sy>=bh)continue;
+    const j=(sy*bw+sx)*4;r+=input[j];g+=input[j+1];b+=input[j+2];n++;
+   }
+   const j=(yy*bw+xx)*4;output[j]=r/n;output[j+1]=g/n;output[j+2]=b/n;output[j+3]=255;
+  }
+ }
+ sc.putImageData(img,0,0);
+ context.save();context.globalCompositeOperation='screen';context.globalAlpha=.38*lookStrength;context.imageSmoothingEnabled=true;
+ context.drawImage(small,0,0,w,h);
+ context.restore();
+}
+function updateAnalysis(){if(!metrics)return;const m=metrics;const type=m.mean<85?'暗め':m.mean>170?'明るめ':'中間調中心';$('analysis').textContent='端末内で自動解析済み：'+type+' / 平均輝度 '+Math.round(m.mean)+'/255 / コントラスト '+Math.round(m.contrast)+' / 色の強さ '+Math.round(m.saturation)+'。下の01〜04はこの写真専用に計算したレシピです。';}
+function draw(c,context,w,h){if(!photo)return;context.clearRect(0,0,w,h);context.drawImage(photo,0,0,w,h);developPixels(context,w,h);applyDreamGlow(context,w,h);if(look==='portrait'&&maskMode!=='done'&&maskShow&&maskStrokes.length&&!compareOriginal&&c===canvas){const maskData=maskPixels(w,h);const overlay=context.createImageData(w,h);for(let k=0;k<maskData.length;k+=4){overlay.data[k]=0;overlay.data[k+1]=210;overlay.data[k+2]=255;overlay.data[k+3]=Math.round(maskData[k+3]*.33)}const oc=document.createElement('canvas');oc.width=w;oc.height=h;oc.getContext('2d').putImageData(overlay,0,0);context.drawImage(oc,0,0)}if(logo&&!compareOriginal){const lw=w*scale,lh=lw*logo.height/logo.width;const left=x*w-lw;const top=y*h-lh;context.drawImage(logo,left,top,lw,lh)}}function render(){if(frame)return;frame=requestAnimationFrame(()=>{frame=0;draw(canvas,ctx,canvas.width,canvas.height)})}
+let requestId=0;async function selectLogo(){const key=name(),id=++requestId;try{const img=await getLogo(key);if(id!==requestId)return;logo=img;render();message('')}catch(e){if(id===requestId)message('ロゴを読み込めません: '+key)}}
+function preload(){const keys=[];for(const m of ['SOFT','NEON'])for(let i=0;i<12;i++)keys.push(name(i,m));let idx=0;function next(){if(idx>=keys.length)return;const key=keys[idx++];getLogo(key).catch(()=>{}).finally(()=>setTimeout(next,30))}next()}
+colors.forEach(([label,c],i)=>{const b=document.createElement('button');b.className='swatch'+(i===0?' active':'');b.innerHTML='<span class="dot"></span><span>'+label.replace('_',' ')+'</span>';b.querySelector('.dot').style.setProperty('--c',c);if(i===11)b.querySelector('.dot').style.background=c;b.onclick=()=>{selected=i;[...sw.children].forEach((el,j)=>el.classList.toggle('active',i===j));selectLogo()};sw.appendChild(b)});
+function reset(){x=.975;y=.965;render()}
+function pos(ev){const r=canvas.getBoundingClientRect();return{x:(ev.clientX-r.left)/r.width,y:(ev.clientY-r.top)/r.height}}
+function bounds(){const lh=logo?scale*logo.height/logo.width*(canvas.width/canvas.height):.1;return{left:Math.max(0,x-scale),top:Math.max(0,y-lh),right:Math.min(1,x),bottom:Math.min(1,y)}}
+canvas.addEventListener('pointerdown',ev=>{if(!photo)return;if(look==='portrait'&&maskMode!=='done'){ev.preventDefault();maskDrawing=true;const p=pos(ev);maskStrokes.push({erase:maskMode==='erase',size:maskSize,points:[[clamp(p.x,0,1),clamp(p.y,0,1)]]});canvas.setPointerCapture(ev.pointerId);invalidateMask();return}if(!logo)return;const p=pos(ev),b=bounds();if(p.x<b.left-.02||p.x>b.right+.02||p.y<b.top-.02||p.y>b.bottom+.02)return;drag=true;pointer=p;canvas.setPointerCapture(ev.pointerId)});
+canvas.addEventListener('pointermove',ev=>{if(maskDrawing){ev.preventDefault();const p=pos(ev),stroke=maskStrokes[maskStrokes.length-1];stroke.points.push([clamp(p.x,0,1),clamp(p.y,0,1)]);invalidateMask();return}if(!drag)return;const p=pos(ev);x=Math.max(-scale+.03,Math.min(1+scale-.03,x+p.x-pointer.x));const lh=scale*logo.height/logo.width*canvas.width/canvas.height;y=Math.max(-lh+.03,Math.min(1+lh-.03,y+p.y-pointer.y));pointer=p;render()});
+['pointerup','pointercancel','lostpointercapture'].forEach(t=>canvas.addEventListener(t,()=>{drag=false;maskDrawing=false}));
+document.querySelectorAll('#looks button,#creativeLooks button').forEach(b=>b.onclick=()=>{look=b.dataset.look;document.querySelectorAll('#looks button,#creativeLooks button').forEach(x=>x.classList.toggle('active',x===b));$('portraitControls').hidden=look!=='portrait';if(look!=='portrait')setMaskMode('done');render();});$('lookStrength').oninput=e=>{lookStrength=Number(e.target.value)/100;$('lookValue').textContent=e.target.value+'%';render()};
+function setMaskMode(m){maskMode=m;maskShow=m!=='done';for(const [id,v] of [['maskPaint','paint'],['maskErase','erase'],['maskDone','done']])$(id).classList.toggle('active',m===v);$('maskVisibility').textContent=maskShow?'保護範囲を非表示':'保護範囲を表示';render()}
+$('maskPaint').onclick=()=>setMaskMode('paint');$('maskErase').onclick=()=>setMaskMode('erase');$('maskDone').onclick=()=>setMaskMode('done');$('maskClear').onclick=()=>{maskStrokes=[];invalidateMask()};$('maskSize').oninput=e=>{maskSize=Number(e.target.value)/100;$('maskSizeValue').textContent=e.target.value+'%'};$('maskVisibility').onclick=()=>{maskShow=!maskShow;$('maskVisibility').textContent=maskShow?'保護範囲を非表示':'保護範囲を表示';render()};$('maskAuto').onclick=()=>{maskAuto=!maskAuto;$('maskAuto').textContent=maskAuto?'肌色保護 ON':'肌色保護 OFF';render()};
+// Optional on-device ML: MediaPipe multiclass selfie segmentation.
+// Model and JS are downloaded on demand; the photograph is never uploaded.
+$('segModeSkin').onclick=()=>{segmentMode='skin';$('segModeSkin').classList.add('active');$('segModePerson').classList.remove('active');render()};
+$('segModePerson').onclick=()=>{segmentMode='person';$('segModePerson').classList.add('active');$('segModeSkin').classList.remove('active');render()};
+$('segClear').onclick=()=>{segmentRequest++;segmentMask=null;segmentW=segmentH=0;$('segStatus').textContent='自動検出を解除しました。従来の肌色推定に戻りました。';render()};
+// Safari-friendly fallback: try classic UMD bundle before ES module CDNs.
+// All remote assets are loaded only after the user presses the detect button.
+async function loadPersonVision(){
+ // ESM-only: avoid the missing legacy vision_bundle.js file.
+ const sources=[
+  'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/+esm',
+  'https://esm.sh/@mediapipe/tasks-vision@0.10.21?bundle'
+ ];
+ const errors=[];
+ for(const url of sources){
+  try{
+   const mod=await import(url);
+   const api=(mod.ImageSegmenter&&mod.FilesetResolver)?mod:mod.default;
+   if(api?.ImageSegmenter&&api?.FilesetResolver)return api;
+   throw new Error('必要なAPIがありません');
+  }catch(e){errors.push(new URL(url).hostname+': '+(e?.message||String(e)))}
+ }
+ throw new Error('ESM起動失敗：'+errors.join(' / '));
+}
+// v9.6.2: isolated transport diagnostics. This does not execute ML or upload images.
+$('aiNetworkTest').onclick=async()=>{
+ const button=$('aiNetworkTest'), out=$('aiNetworkResult');
+ button.disabled=true;out.textContent='診断中…';
+ const checks=[
+  ['ESM / jsDelivr','https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/+esm'],
+  ['WASM / jsDelivr','https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/wasm/vision_wasm_internal.wasm'],
+  ['Model / Google Storage','https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/1/selfie_multiclass_256x256.tflite']
+ ];
+ const results=[];
+ for(const [label,url] of checks){
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),9000);
+  try{
+   // Range avoids intentionally downloading the full model when supported.
+   const response=await fetch(url,{method:'GET',headers:{Range:'bytes=0-0'},mode:'cors',cache:'no-store',signal:controller.signal});
+   results.push(label+': '+(response.ok?'接続OK (HTTP '+response.status+')':'HTTP '+response.status));
+   await response.body?.cancel?.();
+  }catch(e){results.push(label+': 接続不可 / '+(e?.name==='AbortError'?'タイムアウト':(e?.message||'通信エラー')))}
+  finally{clearTimeout(timeout)}
+  out.textContent=results.join(' ｜ ');
+ }
+ out.textContent=results.join(' ｜ ')+' ｜ ESMの実行を確認中…';
+ try{
+  const api=await loadPersonVision();
+  results.push('ESM実行: 成功（ImageSegmenter / FilesetResolver確認）');
+ }catch(e){results.push('ESM実行: 失敗 / '+(e?.message||String(e)))}
+ out.textContent=results.join(' ｜ ')+' ※ESM実行成功でもモデル初期化・人物検出の成功は未確認です。';
+ button.disabled=false;
+};
+$('detectPerson').onclick=async()=>{
+ if(!photo||segmentBusy){$('segStatus').textContent=photo?'解析中です。しばらくお待ちください。':'先に写真を読み込んでください。';return}
+ const token=++segmentRequest;segmentBusy=true;$('detectPerson').disabled=true;
+ $('segStatus').textContent='人物領域モデルを読み込み中…（初回は通信が必要です）';
+ try{
+  if(!segmenter){
+   const mod=await loadPersonVision();
+   const vision=await mod.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/wasm');
+   segmenter=await mod.ImageSegmenter.createFromOptions(vision,{
+    baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/1/selfie_multiclass_256x256.tflite',delegate:'CPU'},
+    runningMode:'IMAGE',outputCategoryMask:true,outputConfidenceMasks:false
+   });
+  }
+  if(token!==segmentRequest)return;
+  $('segStatus').textContent='人物と肌・髪・衣服の領域を解析中…';
+  await new Promise(resolve=>requestAnimationFrame(()=>setTimeout(resolve,30)));
+  const work=document.createElement('canvas');
+  const ratio=Math.min(1,512/Math.max(originalW,originalH));
+  work.width=Math.max(1,Math.round(originalW*ratio));work.height=Math.max(1,Math.round(originalH*ratio));
+  work.getContext('2d').drawImage(photo,0,0,work.width,work.height);
+  const result=segmenter.segment(work);
+  if(token!==segmentRequest){result.close?.();return}
+  if(!result.categoryMask)throw new Error('人物領域データが得られませんでした');
+  segmentW=result.categoryMask.width;segmentH=result.categoryMask.height;
+  segmentMask=new Uint8Array(result.categoryMask.getAsUint8Array());
+  result.close?.();
+  $('segStatus').textContent='自動解析完了：人物の肌・髪・衣服を推定しました。保護の強さをスライダーで調整できます。';
+  render();
+ }catch(err){
+  if(token===segmentRequest){segmentMask=null;segmentW=segmentH=0;$('segStatus').textContent='自動解析できませんでした（通信・Safari対応状況をご確認ください）。従来の肌色推定は使用できます。詳細：'+(err.message||err)}
+ }finally{segmentBusy=false;$('detectPerson').disabled=false}
+};
+$('skinProtect').oninput=e=>{skinProtect=Number(e.target.value)/100;$('skinProtectValue').textContent=e.target.value+'%';render()};$('size').oninput=e=>{scale=Number(e.target.value)/100;$('sizeValue').textContent=e.target.value+'%';render()};$('reset').onclick=reset;
+for(const m of ['SOFT','NEON'])$(m.toLowerCase()).onclick=()=>{mode=m;$('soft').classList.toggle('active',m==='SOFT');$('neon').classList.toggle('active',m==='NEON');selectLogo()};
+$('file').addEventListener('click',()=>{$('file').value=''});
+$('file').onchange=async e=>{const file=e.target.files&&e.target.files[0];if(!file)return;sourceFile=file;message('写真を読み込み中…');try{const img=await(async()=>{if(window.createImageBitmap){try{return await createImageBitmap(file)}catch(e){}}const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('読み込み失敗'));reader.readAsDataURL(file)});return loadImage(data)})();if(photo&&photo.close)photo.close();photo=img;originalW=img.naturalWidth||img.width;originalH=img.naturalHeight||img.height;segmentRequest++;segmentMask=null;segmentW=segmentH=0;$("segStatus").textContent="未解析。人物をAIで自動検出を押してください。";maskStrokes=[];maskCache=null;setMaskMode('done');metrics=analyzePhoto(img);recipes=buildRecipes(metrics);updateAnalysis();look='natural';$('portraitControls').hidden=true;document.querySelectorAll('#looks button,#creativeLooks button').forEach(b=>b.classList.toggle('active',b.dataset.look===look));
+// Small editing canvas reduces redraw cost; full-resolution export uses a separate canvas.
+const ratio=Math.min(1,1200/Math.max(originalW,originalH));canvas.width=Math.max(1,Math.round(originalW*ratio));canvas.height=Math.max(1,Math.round(originalH*ratio));canvas.hidden=false;$('empty').hidden=true;$('reset').disabled=false;$('save').disabled=false;$('share').disabled=false;$('compare').disabled=false;$('sidecar').disabled=false;$('metadata').textContent='原本：'+file.name+' / '+originalW+' × '+originalH+' px / '+(file.size/1048576).toFixed(2)+' MiB / '+(file.type||'形式不明')+' / ファイル更新日時：'+new Date(file.lastModified).toLocaleString('ja-JP');reset();message('写真を読み込みました。比較ボタンを押している間だけロゴを非表示にできます。')}catch(err){message('写真の読み込みに失敗: '+(err.message||err))}};
+// Compare uses the same decoded source pixels; it does not claim to compare against a separate RAW renderer.
+const compareButton=$('compare');
+function setCompare(v){compareOriginal=v;compareButton.classList.toggle('active',v);compareButton.textContent=v?'元写真を表示中（離すと戻る）':'長押しで元写真を比較';render()}
+compareButton.addEventListener('pointerdown',e=>{if(!photo)return;e.preventDefault();setCompare(true)});
+for(const type of ['pointerup','pointercancel','pointerleave'])compareButton.addEventListener(type,()=>{if(compareOriginal)setCompare(false)});
+compareButton.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();setCompare(true)}});
+compareButton.addEventListener('keyup',()=>{if(compareOriginal)setCompare(false)});
+$('sidecar').onclick=()=>{if(!sourceFile||!photo)return;const data={app:'jamjamgram SIGNATURE STUDIO v9.6.1 SAFARI AI LOADER',note:'これは元ファイルの基本情報と編集設定のメモです。EXIFやICCプロファイルの完全な抽出・継承ではありません。',source:{filename:sourceFile.name,mimeType:sourceFile.type||null,bytes:sourceFile.size,lastModified:new Date(sourceFile.lastModified).toISOString(),decodedWidth:originalW,decodedHeight:originalH},edit:{photoLook:look,photoLookStrength:lookStrength,skinProtectionStrength:skinProtect,manualProtectionStrokes:maskStrokes,automaticSkinProtection:maskAuto,skinProtectionMethod:segmentMask?"MediaPipe multiclass person segmentation":"YCbCr approximate chroma mask",personSegmentationMode:segmentMode,personSegmentationActive:!!segmentMask,analysisMetrics:metrics,computedRecipe:recipes?recipes[look]:null,mode,color:colors[selected][0],logoSizePercent:Math.round(scale*100),rightAnchorX:x,bottomAnchorY:y},export:{format:'PNG',width:originalW,height:originalH,exifEmbedded:false}};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='jamjamgram_photo_info_'+Date.now()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);message('元ファイル情報と編集設定のメモを保存しました（EXIFの完全保存ではありません）。')};
+// Check actual PNG signature and IHDR dimensions in the encoded file, not just canvas properties.
+async function verifyPNG(blob,w,h){
+ if(blob.type!=='image/png')throw new Error('PNG形式で書き出されませんでした');
+ const bytes=new Uint8Array(await blob.slice(0,24).arrayBuffer());
+ const sig=[137,80,78,71,13,10,26,10];
+ if(bytes.length<24||sig.some((n,i)=>bytes[i]!==n))throw new Error('PNGヘッダーが不正です');
+ const view=new DataView(bytes.buffer);
+ const actualW=view.getUint32(16,false),actualH=view.getUint32(20,false);
+ if(actualW!==w||actualH!==h)throw new Error('保存データの解像度が元写真と異なります: '+actualW+' × '+actualH);
+ return {width:actualW,height:actualH,bytes:blob.size};
+}
+let saving=false;
+let lastExport=null;
+async function makePNG(){
+ let exportCanvas=document.createElement('canvas');
+ try{
+   exportCanvas.width=originalW;exportCanvas.height=originalH;
+   if(exportCanvas.width!==originalW||exportCanvas.height!==originalH)throw new Error('元解像度のキャンバスを確保できません');
+   const exportCtx=exportCanvas.getContext('2d',{alpha:false});
+   if(!exportCtx)throw new Error('高解像度キャンバスを作成できません');
+   exportCtx.imageSmoothingEnabled=true;exportCtx.imageSmoothingQuality='high';
+   await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,20)));
+   const wasComparing=compareOriginal;compareOriginal=false;
+   try{draw(exportCanvas,exportCtx,originalW,originalH)}finally{compareOriginal=wasComparing}
+   const blob=await new Promise((resolve,reject)=>{try{exportCanvas.toBlob(b=>b?resolve(b):reject(new Error('PNG変換に失敗しました')),'image/png')}catch(e){reject(e)}});
+   const verified=await verifyPNG(blob,originalW,originalH);
+   return {blob,verified,filename:'jamjamgram_HQ_'+originalW+'x'+originalH+'_'+Date.now()+'.png'};
+ }finally{exportCanvas.width=0;exportCanvas.height=0}
+}
+async function getExport(){
+ // Export each time: latest edits are never replaced with a stale cached image.
+ return await makePNG();
+}
+function downloadExport(result){const url=URL.createObjectURL(result.blob),a=document.createElement('a');a.href=url;a.download=result.filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),120000)}
+function previewExport(result){const url=URL.createObjectURL(result.blob);const win=window.open(url,'_blank');if(!win){downloadExport(result);message('別画面を開けないためPNGをダウンロードしました。ファイルから共有できます。')}else{message('画像を別画面で表示しました。長押しまたは共有メニューから保存してください。')}setTimeout(()=>URL.revokeObjectURL(url),300000)}
+$('share').onclick=async()=>{
+ if(!photo||saving)return;
+ saving=true;$('share').disabled=true;$('save').disabled=true;
+ message('共有用PNGを元解像度で作成中…');
+ // iOS Safari may block a new window after async processing. Open a placeholder on the user gesture.
+ let placeholder=null;
+ if(!(navigator.canShare&&navigator.share))placeholder=window.open('about:blank','_blank');
+ try{
+  const result=await getExport();
+  const file=new File([result.blob],result.filename,{type:'image/png'});
+  if(navigator.canShare&&navigator.share&&navigator.canShare({files:[file]})){
+   try{await navigator.share({files:[file]});message('共有メニューを開きました。写真アプリへ保存する場合は「画像を保存」を選択してください。')}catch(e){if(e.name==='AbortError'){message('共有をキャンセルしました。')}else{downloadExport(result);message('共有できなかったためPNGをダウンロードしました。')}}
+  }else if(placeholder){placeholder.location.href=URL.createObjectURL(result.blob);message('PNGを別画面で開きました。共有メニューから「画像を保存」を選択してください。')}
+  else previewExport(result);
+ }catch(e){if(placeholder)placeholder.close();message('共有用PNGの作成に失敗: '+(e.message||e))}
+ finally{saving=false;$('share').disabled=false;$('save').disabled=false}
+};
+$('save').onclick=async()=>{
+ if(!photo||saving)return;
+ saving=true;$('save').disabled=true;$('share').disabled=true;
+ message('元解像度 '+originalW+' × '+originalH+' px でPNGを書き出し中…');
+ try{
+  const result=await getExport();
+  downloadExport(result);
+  message('PNGデータ検査OK：'+result.verified.width+' × '+result.verified.height+' px / '+(result.verified.bytes/1048576).toFixed(2)+' MiB。PNGは8bit sRGB出力であり、RAW階調・EXIF・HDRの保持を保証しません。写真へ保存するなら「画像を共有・表示」も使えます。');
+ }catch(e){message('元解像度での保存に失敗: '+(e.message||e)+'。画像は自動縮小していません。')}
+ finally{saving=false;$('save').disabled=false;$('share').disabled=false}
+};
+
+selectLogo();if('requestIdleCallback'in window)requestIdleCallback(preload,{timeout:1500});else setTimeout(preload,1200);
+})();
+</script></body></html>
